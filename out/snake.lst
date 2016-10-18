@@ -1,0 +1,484 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 3.6.0 #9615 (Linux)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module snake
+                                      6 	.optsdcc -mmcs51 --model-small
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _aligned_alloc_PARM_2
+                                     12 	.globl _rand
+                                     13 	.globl _InitSnake
+                                     14 	.globl _MoveSnake
+                                     15 	.globl _DrawSnake
+                                     16 	.globl _CreateFood
+                                     17 	.globl _DrawFood
+                                     18 ;--------------------------------------------------------
+                                     19 ; special function registers
+                                     20 ;--------------------------------------------------------
+                                     21 	.area RSEG    (ABS,DATA)
+      000000                         22 	.org 0x0000
+                                     23 ;--------------------------------------------------------
+                                     24 ; special function bits
+                                     25 ;--------------------------------------------------------
+                                     26 	.area RSEG    (ABS,DATA)
+      000000                         27 	.org 0x0000
+                                     28 ;--------------------------------------------------------
+                                     29 ; overlayable register banks
+                                     30 ;--------------------------------------------------------
+                                     31 	.area REG_BANK_0	(REL,OVR,DATA)
+      000000                         32 	.ds 8
+                                     33 ;--------------------------------------------------------
+                                     34 ; internal ram data
+                                     35 ;--------------------------------------------------------
+                                     36 	.area DSEG    (DATA)
+      000000                         37 _snake:
+      000000                         38 	.ds 60
+      00003C                         39 _len:
+      00003C                         40 	.ds 1
+      00003D                         41 _food:
+      00003D                         42 	.ds 2
+      00003F                         43 _CreateFood_x_1_45:
+      00003F                         44 	.ds 1
+      000040                         45 _CreateFood_y_1_45:
+      000040                         46 	.ds 1
+                                     47 ;--------------------------------------------------------
+                                     48 ; overlayable items in internal ram 
+                                     49 ;--------------------------------------------------------
+                                     50 	.area	OSEG    (OVR,DATA)
+      000000                         51 _aligned_alloc_PARM_2:
+      000000                         52 	.ds 2
+                                     53 ;--------------------------------------------------------
+                                     54 ; indirectly addressable internal ram data
+                                     55 ;--------------------------------------------------------
+                                     56 	.area ISEG    (DATA)
+                                     57 ;--------------------------------------------------------
+                                     58 ; absolute internal ram data
+                                     59 ;--------------------------------------------------------
+                                     60 	.area IABS    (ABS,DATA)
+                                     61 	.area IABS    (ABS,DATA)
+                                     62 ;--------------------------------------------------------
+                                     63 ; bit data
+                                     64 ;--------------------------------------------------------
+                                     65 	.area BSEG    (BIT)
+                                     66 ;--------------------------------------------------------
+                                     67 ; paged external ram data
+                                     68 ;--------------------------------------------------------
+                                     69 	.area PSEG    (PAG,XDATA)
+                                     70 ;--------------------------------------------------------
+                                     71 ; external ram data
+                                     72 ;--------------------------------------------------------
+                                     73 	.area XSEG    (XDATA)
+                                     74 ;--------------------------------------------------------
+                                     75 ; absolute external ram data
+                                     76 ;--------------------------------------------------------
+                                     77 	.area XABS    (ABS,XDATA)
+                                     78 ;--------------------------------------------------------
+                                     79 ; external initialized ram data
+                                     80 ;--------------------------------------------------------
+                                     81 	.area XISEG   (XDATA)
+                                     82 	.area HOME    (CODE)
+                                     83 	.area GSINIT0 (CODE)
+                                     84 	.area GSINIT1 (CODE)
+                                     85 	.area GSINIT2 (CODE)
+                                     86 	.area GSINIT3 (CODE)
+                                     87 	.area GSINIT4 (CODE)
+                                     88 	.area GSINIT5 (CODE)
+                                     89 	.area GSINIT  (CODE)
+                                     90 	.area GSFINAL (CODE)
+                                     91 	.area CSEG    (CODE)
+                                     92 ;--------------------------------------------------------
+                                     93 ; global & static initialisations
+                                     94 ;--------------------------------------------------------
+                                     95 	.area HOME    (CODE)
+                                     96 	.area GSINIT  (CODE)
+                                     97 	.area GSFINAL (CODE)
+                                     98 	.area GSINIT  (CODE)
+                                     99 ;--------------------------------------------------------
+                                    100 ; Home
+                                    101 ;--------------------------------------------------------
+                                    102 	.area HOME    (CODE)
+                                    103 	.area HOME    (CODE)
+                                    104 ;--------------------------------------------------------
+                                    105 ; code
+                                    106 ;--------------------------------------------------------
+                                    107 	.area CSEG    (CODE)
+                                    108 ;------------------------------------------------------------
+                                    109 ;Allocation info for local variables in function 'InitSnake'
+                                    110 ;------------------------------------------------------------
+                                    111 ;i                         Allocated to registers r7 
+                                    112 ;------------------------------------------------------------
+                                    113 ;	snake.c:16: void InitSnake()
+                                    114 ;	-----------------------------------------
+                                    115 ;	 function InitSnake
+                                    116 ;	-----------------------------------------
+      000000                        117 _InitSnake:
+                           000007   118 	ar7 = 0x07
+                           000006   119 	ar6 = 0x06
+                           000005   120 	ar5 = 0x05
+                           000004   121 	ar4 = 0x04
+                           000003   122 	ar3 = 0x03
+                           000002   123 	ar2 = 0x02
+                           000001   124 	ar1 = 0x01
+                           000000   125 	ar0 = 0x00
+                                    126 ;	snake.c:20: for (i = 0; i < MIN_LEN; i++) {
+      000000 7F 00            [12]  127 	mov	r7,#0x00
+      000002                        128 00102$:
+                                    129 ;	snake.c:21: snake[i].x = MIN_LEN - i - 1;
+      000002 EF               [12]  130 	mov	a,r7
+      000003 2F               [12]  131 	add	a,r7
+      000004 FE               [12]  132 	mov	r6,a
+      000005 24r00            [12]  133 	add	a,#_snake
+      000007 F9               [12]  134 	mov	r1,a
+      000008 74 02            [12]  135 	mov	a,#0x02
+      00000A C3               [12]  136 	clr	c
+      00000B 9F               [12]  137 	subb	a,r7
+      00000C F7               [12]  138 	mov	@r1,a
+                                    139 ;	snake.c:22: snake[i].y = 0;
+      00000D EE               [12]  140 	mov	a,r6
+      00000E 24r00            [12]  141 	add	a,#_snake
+      000010 04               [12]  142 	inc	a
+      000011 F8               [12]  143 	mov	r0,a
+      000012 76 00            [12]  144 	mov	@r0,#0x00
+                                    145 ;	snake.c:23: len++;
+      000014 05*3C            [12]  146 	inc	_len
+                                    147 ;	snake.c:20: for (i = 0; i < MIN_LEN; i++) {
+      000016 0F               [12]  148 	inc	r7
+      000017 BF 03 00         [24]  149 	cjne	r7,#0x03,00110$
+      00001A                        150 00110$:
+      00001A 40 E6            [24]  151 	jc	00102$
+      00001C 22               [24]  152 	ret
+                                    153 ;------------------------------------------------------------
+                                    154 ;Allocation info for local variables in function 'MoveSnake'
+                                    155 ;------------------------------------------------------------
+                                    156 ;direct                    Allocated to registers r7 
+                                    157 ;last_x                    Allocated to registers r7 
+                                    158 ;tmp_x                     Allocated to registers r4 
+                                    159 ;last_y                    Allocated to registers r6 
+                                    160 ;tmp_y                     Allocated to registers r3 
+                                    161 ;i                         Allocated to registers r5 
+                                    162 ;------------------------------------------------------------
+                                    163 ;	snake.c:27: void MoveSnake(uchar direct)
+                                    164 ;	-----------------------------------------
+                                    165 ;	 function MoveSnake
+                                    166 ;	-----------------------------------------
+      00001D                        167 _MoveSnake:
+      00001D AF 82            [24]  168 	mov	r7,dpl
+                                    169 ;	snake.c:34: switch (direct) {
+      00001F BF 0A 02         [24]  170 	cjne	r7,#0x0a,00184$
+      000022 80 29            [24]  171 	sjmp	00109$
+      000024                        172 00184$:
+      000024 BF 0D 02         [24]  173 	cjne	r7,#0x0d,00185$
+      000027 80 0A            [24]  174 	sjmp	00101$
+      000029                        175 00185$:
+      000029 BF 0E 02         [24]  176 	cjne	r7,#0x0e,00186$
+      00002C 80 2E            [24]  177 	sjmp	00113$
+      00002E                        178 00186$:
+                                    179 ;	snake.c:35: case LEFT:
+      00002E BF 0F 38         [24]  180 	cjne	r7,#0x0f,00117$
+      000031 80 0B            [24]  181 	sjmp	00105$
+      000033                        182 00101$:
+                                    183 ;	snake.c:36: if (snake[0].x > 0) {
+      000033 E5*00            [12]  184 	mov	a,_snake
+      000035 FF               [12]  185 	mov	r7,a
+      000036 60 05            [24]  186 	jz	00103$
+                                    187 ;	snake.c:37: last_x = snake[0].x - 1;
+      000038 1F               [12]  188 	dec	r7
+                                    189 ;	snake.c:38: last_y = snake[0].y;
+      000039 AE*01            [24]  190 	mov	r6,(_snake + 0x0001)
+      00003B 80 2D            [24]  191 	sjmp	00118$
+      00003D                        192 00103$:
+                                    193 ;	snake.c:40: return;
+      00003D 22               [24]  194 	ret
+                                    195 ;	snake.c:44: case RIGHT:
+      00003E                        196 00105$:
+                                    197 ;	snake.c:45: if (snake[0].x < MAX_X) {
+      00003E AD*00            [24]  198 	mov	r5,_snake
+      000040 BD 07 00         [24]  199 	cjne	r5,#0x07,00189$
+      000043                        200 00189$:
+      000043 50 07            [24]  201 	jnc	00107$
+                                    202 ;	snake.c:46: last_x = snake[0].x + 1;
+      000045 ED               [12]  203 	mov	a,r5
+      000046 04               [12]  204 	inc	a
+      000047 FF               [12]  205 	mov	r7,a
+                                    206 ;	snake.c:47: last_y = snake[0].y;
+      000048 AE*01            [24]  207 	mov	r6,(_snake + 0x0001)
+      00004A 80 1E            [24]  208 	sjmp	00118$
+      00004C                        209 00107$:
+                                    210 ;	snake.c:49: return;
+      00004C 22               [24]  211 	ret
+                                    212 ;	snake.c:53: case UP:
+      00004D                        213 00109$:
+                                    214 ;	snake.c:54: if (snake[0].y < MAX_Y) {
+      00004D AD*01            [24]  215 	mov	r5,(_snake + 0x0001)
+      00004F BD 07 00         [24]  216 	cjne	r5,#0x07,00191$
+      000052                        217 00191$:
+      000052 50 07            [24]  218 	jnc	00111$
+                                    219 ;	snake.c:55: last_x = snake[0].x;
+      000054 AF*00            [24]  220 	mov	r7,_snake
+                                    221 ;	snake.c:56: last_y = snake[0].y + 1;;
+      000056 ED               [12]  222 	mov	a,r5
+      000057 04               [12]  223 	inc	a
+      000058 FE               [12]  224 	mov	r6,a
+      000059 80 0F            [24]  225 	sjmp	00118$
+      00005B                        226 00111$:
+                                    227 ;	snake.c:58: return;
+      00005B 22               [24]  228 	ret
+                                    229 ;	snake.c:62: case DOWN:
+      00005C                        230 00113$:
+                                    231 ;	snake.c:63: if (snake[0].y > 0) {
+      00005C E5*01            [12]  232 	mov	a,(_snake + 0x0001)
+      00005E FD               [12]  233 	mov	r5,a
+      00005F 60 07            [24]  234 	jz	00115$
+                                    235 ;	snake.c:64: last_x = snake[0].x;
+      000061 AF*00            [24]  236 	mov	r7,_snake
+                                    237 ;	snake.c:65: last_y = snake[0].y - 1;;
+      000063 ED               [12]  238 	mov	a,r5
+      000064 14               [12]  239 	dec	a
+      000065 FE               [12]  240 	mov	r6,a
+      000066 80 02            [24]  241 	sjmp	00118$
+      000068                        242 00115$:
+                                    243 ;	snake.c:67: return;
+                                    244 ;	snake.c:71: default:
+      000068 22               [24]  245 	ret
+      000069                        246 00117$:
+                                    247 ;	snake.c:72: return;
+                                    248 ;	snake.c:73: }
+      000069 22               [24]  249 	ret
+      00006A                        250 00118$:
+                                    251 ;	snake.c:75: if (food.x == last_x && food.y == last_y) {
+      00006A EF               [12]  252 	mov	a,r7
+      00006B B5*3D 11         [24]  253 	cjne	a,_food,00148$
+      00006E EE               [12]  254 	mov	a,r6
+      00006F B5*3E 0D         [24]  255 	cjne	a,(_food + 0x0001),00148$
+                                    256 ;	snake.c:76: len++;
+      000072 05*3C            [12]  257 	inc	_len
+                                    258 ;	snake.c:77: CreateFood();
+      000074 C0 07            [24]  259 	push	ar7
+      000076 C0 06            [24]  260 	push	ar6
+      000078 12r00rFD         [24]  261 	lcall	_CreateFood
+      00007B D0 06            [24]  262 	pop	ar6
+      00007D D0 07            [24]  263 	pop	ar7
+                                    264 ;	snake.c:80: for (i = 0; i < len; i++) {
+      00007F                        265 00148$:
+      00007F 7D 00            [12]  266 	mov	r5,#0x00
+      000081                        267 00128$:
+      000081 C3               [12]  268 	clr	c
+      000082 ED               [12]  269 	mov	a,r5
+      000083 95*3C            [12]  270 	subb	a,_len
+      000085 50 1B            [24]  271 	jnc	00150$
+                                    272 ;	snake.c:81: if (last_x == (snake[i].x) && last_y == (snake[i].y)) {
+      000087 ED               [12]  273 	mov	a,r5
+      000088 2D               [12]  274 	add	a,r5
+      000089 FC               [12]  275 	mov	r4,a
+      00008A 24r00            [12]  276 	add	a,#_snake
+      00008C F9               [12]  277 	mov	r1,a
+      00008D 87 03            [24]  278 	mov	ar3,@r1
+      00008F EF               [12]  279 	mov	a,r7
+      000090 B5 03 0C         [24]  280 	cjne	a,ar3,00129$
+      000093 EC               [12]  281 	mov	a,r4
+      000094 24r00            [12]  282 	add	a,#_snake
+      000096 04               [12]  283 	inc	a
+      000097 F9               [12]  284 	mov	r1,a
+      000098 87 04            [24]  285 	mov	ar4,@r1
+      00009A EE               [12]  286 	mov	a,r6
+      00009B B5 04 01         [24]  287 	cjne	a,ar4,00129$
+                                    288 ;	snake.c:82: return;
+      00009E 22               [24]  289 	ret
+      00009F                        290 00129$:
+                                    291 ;	snake.c:80: for (i = 0; i < len; i++) {
+      00009F 0D               [12]  292 	inc	r5
+                                    293 ;	snake.c:86: for (i = 0; i < len; i++) {
+      0000A0 80 DF            [24]  294 	sjmp	00128$
+      0000A2                        295 00150$:
+      0000A2 7D 00            [12]  296 	mov	r5,#0x00
+      0000A4                        297 00131$:
+      0000A4 C3               [12]  298 	clr	c
+      0000A5 ED               [12]  299 	mov	a,r5
+      0000A6 95*3C            [12]  300 	subb	a,_len
+      0000A8 50 1B            [24]  301 	jnc	00133$
+                                    302 ;	snake.c:87: tmp_x = last_x;
+      0000AA 8F 04            [24]  303 	mov	ar4,r7
+                                    304 ;	snake.c:88: tmp_y = last_y;
+      0000AC 8E 03            [24]  305 	mov	ar3,r6
+                                    306 ;	snake.c:90: last_x = snake[i].x;
+      0000AE ED               [12]  307 	mov	a,r5
+      0000AF 2D               [12]  308 	add	a,r5
+      0000B0 FA               [12]  309 	mov	r2,a
+      0000B1 24r00            [12]  310 	add	a,#_snake
+      0000B3 F9               [12]  311 	mov	r1,a
+      0000B4 87 07            [24]  312 	mov	ar7,@r1
+                                    313 ;	snake.c:91: last_y = snake[i].y;
+      0000B6 EA               [12]  314 	mov	a,r2
+      0000B7 24r00            [12]  315 	add	a,#_snake
+      0000B9 F9               [12]  316 	mov	r1,a
+      0000BA 04               [12]  317 	inc	a
+      0000BB F8               [12]  318 	mov	r0,a
+      0000BC 86 06            [24]  319 	mov	ar6,@r0
+                                    320 ;	snake.c:93: snake[i].x = tmp_x;
+      0000BE A7 04            [24]  321 	mov	@r1,ar4
+                                    322 ;	snake.c:94: snake[i].y = tmp_y;
+      0000C0 A6 03            [24]  323 	mov	@r0,ar3
+                                    324 ;	snake.c:86: for (i = 0; i < len; i++) {
+      0000C2 0D               [12]  325 	inc	r5
+      0000C3 80 DF            [24]  326 	sjmp	00131$
+      0000C5                        327 00133$:
+      0000C5 22               [24]  328 	ret
+                                    329 ;------------------------------------------------------------
+                                    330 ;Allocation info for local variables in function 'DrawSnake'
+                                    331 ;------------------------------------------------------------
+                                    332 ;func                      Allocated to registers r6 r7 
+                                    333 ;i                         Allocated to registers r5 
+                                    334 ;------------------------------------------------------------
+                                    335 ;	snake.c:98: void DrawSnake(Func func)
+                                    336 ;	-----------------------------------------
+                                    337 ;	 function DrawSnake
+                                    338 ;	-----------------------------------------
+      0000C6                        339 _DrawSnake:
+      0000C6 AE 82            [24]  340 	mov	r6,dpl
+      0000C8 AF 83            [24]  341 	mov	r7,dph
+                                    342 ;	snake.c:102: for (i = 0;i < len; i++) {
+      0000CA 7D 00            [12]  343 	mov	r5,#0x00
+      0000CC                        344 00103$:
+      0000CC C3               [12]  345 	clr	c
+      0000CD ED               [12]  346 	mov	a,r5
+      0000CE 95*3C            [12]  347 	subb	a,_len
+      0000D0 50 2A            [24]  348 	jnc	00105$
+                                    349 ;	snake.c:103: func(snake[i].x, snake[i].y);
+      0000D2 ED               [12]  350 	mov	a,r5
+      0000D3 2D               [12]  351 	add	a,r5
+      0000D4 24r00            [12]  352 	add	a,#_snake
+      0000D6 F9               [12]  353 	mov	r1,a
+      0000D7 04               [12]  354 	inc	a
+      0000D8 F8               [12]  355 	mov	r0,a
+      0000D9 86 04            [24]  356 	mov	ar4,@r0
+      0000DB 87 03            [24]  357 	mov	ar3,@r1
+      0000DD C0 07            [24]  358 	push	ar7
+      0000DF C0 06            [24]  359 	push	ar6
+      0000E1 C0 05            [24]  360 	push	ar5
+      0000E3 C0 04            [24]  361 	push	ar4
+      0000E5 12r00rEA         [24]  362 	lcall	00115$
+      0000E8 80 07            [24]  363 	sjmp	00116$
+      0000EA                        364 00115$:
+      0000EA C0 06            [24]  365 	push	ar6
+      0000EC C0 07            [24]  366 	push	ar7
+      0000EE 8B 82            [24]  367 	mov	dpl,r3
+      0000F0 22               [24]  368 	ret
+      0000F1                        369 00116$:
+      0000F1 15 81            [12]  370 	dec	sp
+      0000F3 D0 05            [24]  371 	pop	ar5
+      0000F5 D0 06            [24]  372 	pop	ar6
+      0000F7 D0 07            [24]  373 	pop	ar7
+                                    374 ;	snake.c:102: for (i = 0;i < len; i++) {
+      0000F9 0D               [12]  375 	inc	r5
+      0000FA 80 D0            [24]  376 	sjmp	00103$
+      0000FC                        377 00105$:
+      0000FC 22               [24]  378 	ret
+                                    379 ;------------------------------------------------------------
+                                    380 ;Allocation info for local variables in function 'CreateFood'
+                                    381 ;------------------------------------------------------------
+                                    382 ;i                         Allocated to registers r6 
+                                    383 ;x                         Allocated with name '_CreateFood_x_1_45'
+                                    384 ;y                         Allocated with name '_CreateFood_y_1_45'
+                                    385 ;flag                      Allocated to registers r7 
+                                    386 ;------------------------------------------------------------
+                                    387 ;	snake.c:107: void CreateFood()
+                                    388 ;	-----------------------------------------
+                                    389 ;	 function CreateFood
+                                    390 ;	-----------------------------------------
+      0000FD                        391 _CreateFood:
+                                    392 ;	snake.c:111: uchar flag = 1;
+      0000FD 7F 01            [12]  393 	mov	r7,#0x01
+                                    394 ;	snake.c:113: while (flag) {
+      0000FF                        395 00105$:
+      0000FF EF               [12]  396 	mov	a,r7
+      000100 60 4A            [24]  397 	jz	00107$
+                                    398 ;	snake.c:114: flag = 0;
+      000102 7F 00            [12]  399 	mov	r7,#0x00
+                                    400 ;	snake.c:115: x = rand() % 8;
+      000104 C0 07            [24]  401 	push	ar7
+      000106 12r00r00         [24]  402 	lcall	_rand
+      000109 75*00 08         [24]  403 	mov	__modsint_PARM_2,#0x08
+      00010C 75*01 00         [24]  404 	mov	(__modsint_PARM_2 + 1),#0x00
+      00010F 12r00r00         [24]  405 	lcall	__modsint
+      000112 AD 82            [24]  406 	mov	r5,dpl
+      000114 8D*3F            [24]  407 	mov	_CreateFood_x_1_45,r5
+                                    408 ;	snake.c:116: y = rand() % 8;
+      000116 12r00r00         [24]  409 	lcall	_rand
+      000119 75*00 08         [24]  410 	mov	__modsint_PARM_2,#0x08
+      00011C 75*01 00         [24]  411 	mov	(__modsint_PARM_2 + 1),#0x00
+      00011F 12r00r00         [24]  412 	lcall	__modsint
+      000122 AD 82            [24]  413 	mov	r5,dpl
+      000124 D0 07            [24]  414 	pop	ar7
+      000126 8D*40            [24]  415 	mov	_CreateFood_y_1_45,r5
+                                    416 ;	snake.c:117: for (i = 0; i < len; i++) {
+      000128 7E 00            [12]  417 	mov	r6,#0x00
+      00012A                        418 00109$:
+      00012A C3               [12]  419 	clr	c
+      00012B EE               [12]  420 	mov	a,r6
+      00012C 95*3C            [12]  421 	subb	a,_len
+      00012E 50 CF            [24]  422 	jnc	00105$
+                                    423 ;	snake.c:118: if (x == snake[i].x && y == snake[i].y) {
+      000130 EE               [12]  424 	mov	a,r6
+      000131 2E               [12]  425 	add	a,r6
+      000132 FD               [12]  426 	mov	r5,a
+      000133 24r00            [12]  427 	add	a,#_snake
+      000135 F9               [12]  428 	mov	r1,a
+      000136 E7               [12]  429 	mov	a,@r1
+      000137 FC               [12]  430 	mov	r4,a
+      000138 B5*3F 0E         [24]  431 	cjne	a,_CreateFood_x_1_45,00110$
+      00013B ED               [12]  432 	mov	a,r5
+      00013C 24r00            [12]  433 	add	a,#_snake
+      00013E 04               [12]  434 	inc	a
+      00013F F9               [12]  435 	mov	r1,a
+      000140 E7               [12]  436 	mov	a,@r1
+      000141 FD               [12]  437 	mov	r5,a
+      000142 B5*40 04         [24]  438 	cjne	a,_CreateFood_y_1_45,00110$
+                                    439 ;	snake.c:119: flag = 1;
+      000145 7F 01            [12]  440 	mov	r7,#0x01
+                                    441 ;	snake.c:120: break;
+      000147 80 B6            [24]  442 	sjmp	00105$
+      000149                        443 00110$:
+                                    444 ;	snake.c:117: for (i = 0; i < len; i++) {
+      000149 0E               [12]  445 	inc	r6
+      00014A 80 DE            [24]  446 	sjmp	00109$
+      00014C                        447 00107$:
+                                    448 ;	snake.c:124: food.x = x;
+      00014C 85*3F*3D         [24]  449 	mov	_food,_CreateFood_x_1_45
+                                    450 ;	snake.c:125: food.y = y;
+      00014F 85*40*3E         [24]  451 	mov	(_food + 0x0001),_CreateFood_y_1_45
+      000152 22               [24]  452 	ret
+                                    453 ;------------------------------------------------------------
+                                    454 ;Allocation info for local variables in function 'DrawFood'
+                                    455 ;------------------------------------------------------------
+                                    456 ;func                      Allocated to registers r6 r7 
+                                    457 ;------------------------------------------------------------
+                                    458 ;	snake.c:128: void DrawFood(Func func)
+                                    459 ;	-----------------------------------------
+                                    460 ;	 function DrawFood
+                                    461 ;	-----------------------------------------
+      000153                        462 _DrawFood:
+      000153 AE 82            [24]  463 	mov	r6,dpl
+      000155 AF 83            [24]  464 	mov	r7,dph
+                                    465 ;	snake.c:130: func(food.x, food.y);
+      000157 C0 07            [24]  466 	push	ar7
+      000159 C0 06            [24]  467 	push	ar6
+      00015B C0*3E            [24]  468 	push	(_food + 0x0001)
+      00015D 12r01r62         [24]  469 	lcall	00103$
+      000160 80 08            [24]  470 	sjmp	00104$
+      000162                        471 00103$:
+      000162 C0 06            [24]  472 	push	ar6
+      000164 C0 07            [24]  473 	push	ar7
+      000166 85*3D 82         [24]  474 	mov	dpl,_food
+      000169 22               [24]  475 	ret
+      00016A                        476 00104$:
+      00016A 15 81            [12]  477 	dec	sp
+      00016C D0 06            [24]  478 	pop	ar6
+      00016E D0 07            [24]  479 	pop	ar7
+      000170 22               [24]  480 	ret
+                                    481 	.area CSEG    (CODE)
+                                    482 	.area CONST   (CODE)
+                                    483 	.area XINIT   (CODE)
+                                    484 	.area CABS    (ABS,CODE)
